@@ -1,53 +1,48 @@
 #include <bits\stdc++.h>
 using namespace std;
 
-bool binary_search(int low, int high, int key, vector<int> nums)
+vector<vector<int>> threeSum(vector<int> &num)
 {
-    while (low <= high)
-    {
-        int mid = (low + high) / 2;
-        if (nums[mid] == key)
-            return true;
-        else if (nums[mid] > key)
-            high = mid - 1;
-        else
-            low = mid + 1;
-    }
-    return false;
-}
-vector<vector<int>> threeSum(vector<int> &nums)
-{
-    int n = nums.size();
-    vector<vector<int>> ans;
-    int low = 0, high = n - 1;
-    while (low <= high)
-    {
-        int sum = nums[low] + nums[high];
-        int diff = 0 - sum;
-        if (binary_search(low, high, diff, nums))
-        {
-            vector<int> temp;
-            temp.push_back(nums[low]);
-            temp.push_back(nums[high]);
-            temp.push_back(diff);
-            sort(temp.begin(), temp.end());
-            ans.push_back(temp);
-        }
-        else
-        {
-            if (sum == 0)
-            {
-                low++;
-                high--;
-            }
-            else if (sum < 0)
-                low++;
-            else
-                high--;
-        }
-    }
-}
+    vector<vector<int>> res;
+    sort(num.begin(), num.end());
 
+    // moves for a
+    for (int i = 0; i < (int)(num.size()) - 2; i++)
+    {
+
+        if (i == 0 || (i > 0 && num[i] != num[i - 1]))
+        {
+
+            int lo = i + 1, hi = (int)(num.size()) - 1, sum = 0 - num[i];
+
+            while (lo < hi)
+            {
+                if (num[lo] + num[hi] == sum)
+                {
+
+                    vector<int> temp;
+                    temp.push_back(num[i]);
+                    temp.push_back(num[lo]);
+                    temp.push_back(num[hi]);
+                    res.push_back(temp);
+
+                    while (lo < hi && num[lo] == num[lo + 1])
+                        lo++;
+                    while (lo < hi && num[hi] == num[hi - 1])
+                        hi--;
+
+                    lo++;
+                    hi--;
+                }
+                else if (num[lo] + num[hi] < sum)
+                    lo++;
+                else
+                    hi--;
+            }
+        }
+    }
+    return res;
+}
 int main()
 {
     int n;
