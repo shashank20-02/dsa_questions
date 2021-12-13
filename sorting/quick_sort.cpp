@@ -10,9 +10,10 @@ void swap_tt(vector<int> &nums, int i, int j)
 
 int partition(vector<int> &nums, int lo, int hi)
 {
-    int pivot = nums[lo];
+    int mid = (lo + hi) / 2;
+    int pivot = nums[mid];
     int i = lo, j = hi;
-    while (i < j)
+    while (i <= j)
     {
         while (nums[i] <= pivot)
             i++;
